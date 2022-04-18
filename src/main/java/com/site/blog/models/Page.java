@@ -1,5 +1,6 @@
 package com.site.blog.models;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "pages")
@@ -31,5 +32,61 @@ public class Page {
                 "Page[id=%s,postId=%s,postDate=%s,pageSubTitle='%s',contentTitle='%s',contentText='%s', postTeaserContent='%s']",
                 id, postId, postDate, pageSubtitle, contentTitle, contentText, postTeaserContent
         );
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
+    }
+
+    public String getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(String postDate) {
+        this.postDate = postDate;
+    }
+
+    public String getPostTeaserContent() {
+        return postTeaserContent;
+    }
+
+    public void setPostTeaserContent(String postTeaserContent) {
+        this.postTeaserContent = postTeaserContent;
+    }
+
+    public String getPageSubtitle() {
+        return pageSubtitle;
+    }
+
+    public void setPageSubtitle(String pageSubtitle) {
+        this.pageSubtitle = pageSubtitle;
+    }
+
+    public String getContentTitle() {
+        return contentTitle;
+    }
+
+    public void setContentTitle(String contentTitle) {
+        this.contentTitle = contentTitle;
+    }
+
+    public String getContentText() {
+        return contentText;
+    }
+
+    public void setContentText(String contentText) {
+        this.contentText = contentText;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -44,9 +45,16 @@ public class PageController {
         return view;
     }
 
+    @GetMapping("/posts/addPost")
+    public String addPost(Model model){
+        model.addAttribute("page", new Page());
+        return "add";
+    }
+
     //incomplete
     @PostMapping(path="/posts/add",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String add(Page page, Model model){
+    public String add(@ModelAttribute Page page, Model model){
+        System.out.println(page.toString());
         String view = "redirect:/posts/";
         try {
             Page savedPage = pageRepository.save(page);
