@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div class="container" th:fragment="postList">
+            <div class="row product-list dev">
+                <div class="col-sm-10 col-md-6 col-lg-4 offset-sm-1 offset-md-0 product-item animation-element slide-top-right" th:each="post: ${posts}">
+                    <div class="product-container">
+                        <div class="row">
+                            <div class="col-md-12"><a class="product-image" href="#">
+                                <picture><img></picture>
+                            </a></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8">
+                                <h2><span th:text="${post.contentTitle}"></span></h2>
+                            </div>
+                            <div class="col-4"><span th:text="${post.postDate}"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="product-description" th:text="${post.postTeaserContent}"></p>
+                                <div class="row">
+                                    <div class="col-6"><a class="btn btn-light" th:href="@{/posts/{postId}(postId=${post.postId})}">View</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>

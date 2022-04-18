@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+    <header class="header-dark" style="max-height: 200px;" th:fragment="header">
+        <nav class="navbar navbar-dark navbar-expand-lg navigation-clean-search">
+            <div class="container">
+                <button class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-1">
+                    <span class="visually-hidden">Toggle navigation</span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+        <div class="container hero">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <h1 class="text-center" id="home_page_title" style="margin-bottom: 5px;margin-top: 5px;" th:text="${@environment.getProperty('content.title')}"></h1>
+                    <h3 class="text-center" style="margin-top: 0px;margin-bottom: 0px;color: var(--bs-gray-100);font-family: Bitter, serif;" th:text="${post} ? ${post.pageSubtitle} : ''"></h3>
+                </div>
+            </div>
+        </div>
+    </header>
+</body>
+</html>

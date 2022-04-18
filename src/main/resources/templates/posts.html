@@ -1,0 +1,15 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div th:replace="fragments/head :: head"></div>
+    <link rel="stylesheet" th:href="@{/css/Animated-Pretty-Product-List-v12.css}">
+
+    <div th:insert="fragments/header :: header"></div>
+
+    <body>
+        <div th:replace="fragments/postList :: postList"></div>
+    </body>
+
+    <div th:insert="fragments/footer :: footer"></div>
+
+    <script th:src="@{/js/jquery-1.10.2.min.js}"></script>
+    <script th:src="@{/js/Animated-Pretty-Product-List-v12.js}"></script>
+</html>
