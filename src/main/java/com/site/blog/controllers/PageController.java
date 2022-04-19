@@ -45,18 +45,18 @@ public class PageController {
         return view;
     }
 
-    @GetMapping("/posts/addPost")
+    @GetMapping("/posts/add")
     public String addPost(Model model){
         model.addAttribute("page", new Page());
         return "add";
     }
 
-    //incomplete
-    @PostMapping(path="/posts/add",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path="/edit/add",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String add(@ModelAttribute Page page, Model model){
         System.out.println(page.toString());
         String view = "redirect:/posts/";
         try {
+            page.setPostId("testfgff");
             Page savedPage = pageRepository.save(page);
             model.addAttribute("post", savedPage);
             view += savedPage.postId;
@@ -66,7 +66,7 @@ public class PageController {
         return view;
     }
 
-    @PostMapping(path="/posts/update",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path="/edit/update",consumes = MediaType.APPLICATION_JSON_VALUE)
     public String update(Page page){
         return null;
     }
