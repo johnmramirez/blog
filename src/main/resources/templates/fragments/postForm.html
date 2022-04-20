@@ -5,7 +5,7 @@
       <div class="row" style="margin-top: 5px;margin-bottom: 5px;">
         <div class="col-10 col-lg-8 offset-1 offset-lg-2 text-center">
           <h1>Add a Post</h1>
-          <form class="text-start" action="#" th:action="@{/edit/add}" th:object="${page}" method="post">
+          <form class="text-start" action="#" th:action="@{/edit/update}" th:object="${page}" method="post">
             <div class="row" style="margin-top: 5px;margin-bottom: 5px;padding-bottom: 5px;">
               <div class="col"><label class="form-label">Post Title</label><input class="form-control" type="text" th:field="*{contentTitle}"></div>
             </div>

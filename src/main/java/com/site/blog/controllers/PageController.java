@@ -2,6 +2,9 @@ package com.site.blog.controllers;
 
 import com.site.blog.models.Page;
 import com.site.blog.repositories.PageRepository;
+import com.site.blog.util.RandomIdGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -11,11 +14,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.lang.reflect.Executable;
+
 @Controller
 public class PageController {
 
+    Logger logger = LoggerFactory.getLogger(PageController.class);
+
     @Autowired
     private PageRepository pageRepository;
+
+    @Autowired
+    private RandomIdGenerator randomIdGenerator;
 
     @GetMapping("/")
     public String main(Model model){
@@ -28,6 +38,7 @@ public class PageController {
         try {
             model.addAttribute("posts", pageRepository.findAll());
         } catch (Exception e){
+            logger.error(e.getMessage(), e);
             view = "redirect:/error";
         }
         return view;
@@ -40,6 +51,7 @@ public class PageController {
             Page post = pageRepository.findByPostId(postId);
             model.addAttribute("post", post);
         } catch (Exception e){
+            logger.error(e.getMessage(), e);
             view = "redirect:/error";
         }
         return view;
@@ -47,27 +59,39 @@ public class PageController {
 
     @GetMapping("/posts/add")
     public String addPost(Model model){
-        model.addAttribute("page", new Page());
-        return "add";
+        String view = "add";
+        try {
+            model.addAttribute("page", new Page());
+        } catch (Exception e){
+            logger.error(e.getMessage(), e);
+            view = "redirect:/error";
+        }
+
+        return view;
     }
 
     @PostMapping(path="/edit/add",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String add(@ModelAttribute Page page, Model model){
-        System.out.println(page.toString());
         String view = "redirect:/posts/";
         try {
-            page.setPostId("testfgff");
+            page.setPostId(randomIdGenerator.generateUUID());
             Page savedPage = pageRepository.save(page);
             model.addAttribute("post", savedPage);
             view += savedPage.postId;
         } catch (Exception e){
+            logger.error(e.getMessage(), e);
             view = "redirect:/error";
         }
         return view;
     }
 
-    @PostMapping(path="/edit/update",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path="/edit/update",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String update(Page page){
+        try {
+
+        } catch (Exception e){
+
+        }
         return null;
     }
 }
