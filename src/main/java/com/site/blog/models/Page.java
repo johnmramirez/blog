@@ -7,8 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Page {
 
     public String id;
-
-    public String postId;
     public String postDate;
     public String postTeaserContent;
     public String pageSubtitle;
@@ -17,8 +15,7 @@ public class Page {
 
     public Page() {}
 
-    public Page(String postId, String postDate, String pageSubTitle, String contentTitle, String pageContentText, String postTeaserContent){
-        this.postId = postId;
+    public Page( String postDate, String pageSubTitle, String contentTitle, String pageContentText, String postTeaserContent){
         this.postDate = postDate;
         this.pageSubtitle = pageSubTitle;
         this.contentTitle = contentTitle;
@@ -29,8 +26,8 @@ public class Page {
     @Override
     public String toString(){
         return String.format(
-                "Page[id=%s,postId=%s,postDate=%s,pageSubTitle='%s',contentTitle='%s',contentText='%s', postTeaserContent='%s']",
-                id, postId, postDate, pageSubtitle, contentTitle, contentText, postTeaserContent
+                "Page[id=%s,postDate=%s,pageSubTitle='%s',contentTitle='%s',contentText='%s', postTeaserContent='%s']",
+                id, postDate, pageSubtitle, contentTitle, contentText, postTeaserContent
         );
     }
 
@@ -40,14 +37,6 @@ public class Page {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getPostId() {
-        return postId;
-    }
-
-    public void setPostId(String postId) {
-        this.postId = postId;
     }
 
     public String getPostDate() {

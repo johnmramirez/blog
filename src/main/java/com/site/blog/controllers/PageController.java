@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.lang.reflect.Executable;
+import java.util.Optional;
 
 @Controller
 public class PageController {
@@ -32,7 +33,10 @@ public class PageController {
         return "home"; //view name (home.html)
     }
 
-    @GetMapping("/posts")
+    @GetMapping(value = {
+            "/posts",
+            "/posts/all"
+    })
     public String posts(Model model){
         String view = "posts";
         try {
@@ -44,12 +48,12 @@ public class PageController {
         return view;
     }
 
-    @GetMapping("/posts/{postId}")
-    public String post(@PathVariable(value="postId") String postId, Model model){
+    @GetMapping("/posts/view/{id}")
+    public String post(@PathVariable(value="id") String id, Model model){
         String view = "post";
         try {
-            Page post = pageRepository.findByPostId(postId);
-            model.addAttribute("post", post);
+            Optional<Page> post = pageRepository.findById(id);
+            model.addAttribute("post", post.get());
         } catch (Exception e){
             logger.error(e.getMessage(), e);
             view = "redirect:/error";
@@ -57,41 +61,46 @@ public class PageController {
         return view;
     }
 
-    @GetMapping("/posts/add")
-    public String addPost(Model model){
+    @GetMapping(value = {
+            "/posts/update/",
+            "/posts/update/{id}"
+    })
+    public String add(@PathVariable(value="id", required = false) String id, Model model){
         String view = "add";
+        System.out.println("Post ID = " + id);
         try {
-            model.addAttribute("page", new Page());
+            if(id != null && !id.isEmpty()){
+                Optional<Page> post = pageRepository.findById(id);
+                if(post.isPresent()){
+                    model.addAttribute("post", post.get());
+                } else {
+                    throw new Exception("No post with id '" + id + "' exists.");
+                }
+            } else {
+                model.addAttribute("post", new Page());
+            }
         } catch (Exception e){
             logger.error(e.getMessage(), e);
             view = "redirect:/error";
         }
 
-        return view;
-    }
-
-    @PostMapping(path="/edit/add",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String add(@ModelAttribute Page page, Model model){
-        String view = "redirect:/posts/";
-        try {
-            page.setPostId(randomIdGenerator.generateUUID());
-            Page savedPage = pageRepository.save(page);
-            model.addAttribute("post", savedPage);
-            view += savedPage.postId;
-        } catch (Exception e){
-            logger.error(e.getMessage(), e);
-            view = "redirect:/error";
-        }
         return view;
     }
 
     @PostMapping(path="/edit/update",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String update(Page page){
+    public String add(@ModelAttribute Page page, Model model){
+        String view = "redirect:/posts/view/";
         try {
-
+            //form validation is required
+            Page savedPage = pageRepository.save(page);
+            System.out.println("Saved Page: " + savedPage);
+            model.addAttribute("post", savedPage);
+            view += savedPage.getId();
         } catch (Exception e){
-
+            logger.error(e.getMessage(), e);
+            view = "redirect:/error";
         }
-        return null;
+        return view;
     }
+
 }
