@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.lang.reflect.Executable;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class PageController {
@@ -56,8 +58,8 @@ public class PageController {
     public String post(@PathVariable(value="id") String id, Model model){
         String view = "post";
         try {
-            Optional<Page> post = pageRepository.findById(id);
-            model.addAttribute("post", post.get());
+            model.addAttribute("mostRecentPosts", pageRepository.findByPostDateIsNotNullOrderByPostDateDesc().stream().limit(3).collect(Collectors.toList()));
+            model.addAttribute("post", pageRepository.findById(id).get());
         } catch (Exception e){
             logger.error(e.getMessage(), e);
             view = "redirect:/error";
