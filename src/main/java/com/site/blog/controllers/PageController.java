@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.lang.reflect.Executable;
 import java.util.Optional;
 
 @Controller
@@ -29,8 +28,13 @@ public class PageController {
     private RandomIdGenerator randomIdGenerator;
 
     @GetMapping("/")
-    public String main(Model model){
-        return "home"; //view name (home.html)
+    public String home(Model model){
+        return "home";
+    }
+
+    @GetMapping("/error")
+    public String error(Model model){
+        return "error";
     }
 
     @GetMapping(value = {
